@@ -33,4 +33,4 @@ LINKS:
 
 https://alpinejs.dev/
 
-[wpcodebox](https://wpcodebox.com/)https://wpcodebox.com/
+https://wpcodebox.com/
