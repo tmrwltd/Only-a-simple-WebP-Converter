@@ -27,3 +27,8 @@ The other two components are permanently active. The filename update could also 
 I do not use the plugin as a plugin in the usual sense that a ZIP file is uploaded. I have WPCodeBox2 in use and entered and activated the components there.
 
 If someone wants to play around with it it is ok - support I do not take. Everything is at your own risk.
+
+
+LINKS:
+https://alpinejs.dev/
+[wpcodebox](https://wpcodebox.com/)https://wpcodebox.com/
