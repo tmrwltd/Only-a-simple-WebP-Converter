@@ -1,0 +1,22 @@
+<?php
+/**
+ * Plugin Name: WebP URL Changer
+ * Description: Changes the URL of JPG and PNG images to WebP format if a WebP version exists and updates the attachment file path in the database.
+ * Version: 1.0
+ * Author: Torsten Wenzel
+ */
+
+function change_image_url_to_webp($url, $post_id) {
+    $upload_dir = wp_upload_dir();
+    $file_path  = str_replace($upload_dir['baseurl'], $upload_dir['basedir'], $url);
+    $path_info  = pathinfo($file_path);
+    if (isset($path_info['extension']) && in_array(strtolower($path_info['extension']), ['jpg', 'jpeg', 'png'])) {
+        $webp_file_path = $path_info['dirname'] . '/' . $path_info['filename'] . '.webp';
+        if (file_exists($webp_file_path)) {
+            update_attached_file($post_id, $webp_file_path);
+            $url = str_replace($path_info['basename'], $path_info['filename'] . '.webp', $url);
+        }
+    }
+    return $url;
+}
+add_filter('wp_get_attachment_url', 'change_image_url_to_webp', 10, 2);
