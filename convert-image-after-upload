@@ -1,0 +1,26 @@
+<?php
+/**
+ * Plugin Name: Image to WebP Converter
+ * Description: A plugin to convert uploaded images to WebP and replace the original filename with the WebP filename.
+ * Version: 1.0
+ * Author: Torsten Wenzel
+ */
+
+add_filter('wp_handle_upload', 'convert_to_webp');
+function convert_to_webp($uploaded_file_info) {
+    $uploaded_file_path = $uploaded_file_info['file'];
+    $uploaded_file_type = $uploaded_file_info['type'];
+    if (strpos($uploaded_file_type, 'image') === false) {
+        return $uploaded_file_info;
+    }
+    $path_info = pathinfo($uploaded_file_path);
+    $webp_file_path = $path_info['dirname'] . '/' . $path_info['filename'] . '.webp';
+    $image = imagecreatefromstring(file_get_contents($uploaded_file_path));
+    imagewebp($image, $webp_file_path);
+    imagedestroy($image);
+    $uploaded_file_info['file'] = $webp_file_path;
+    $uploaded_file_info['url'] = str_replace($path_info['basename'], $path_info['filename'] . '.webp', $uploaded_file_info['url']);
+    $uploaded_file_info['type'] = 'image/webp';
+    unlink($uploaded_file_path);
+    return $uploaded_file_info;
+}
